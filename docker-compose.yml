@@ -5,6 +5,7 @@ services:
                 build: .
                 volumes:
                         - ./:/var/www
+                restart: always
                 depends_on:
                         - category-app-mysql
                         - category-app-redis
@@ -13,7 +14,7 @@ services:
                 image: mysql:5.7.22
                 restart: always
                 ports:
-                        - "3306"
+                        - "3306:3306"
                 volumes:
                         - "./.docker/db:/var/lib/mysql"
                 environment:
@@ -24,7 +25,7 @@ services:
                 build: ./.docker/nginx
                 restart: always
                 ports:
-                        - "8001:80"
+                        - "80:80"
                 volumes:
                         - ./:/var/www
                 depends_on:
@@ -32,5 +33,6 @@ services:
 
         category-app-redis:
                 image: redis:alpine
+                restart: always
                 expose:
                         - 6379
